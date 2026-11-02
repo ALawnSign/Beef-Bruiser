@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://bkp8u2m628p1x"]
+
+[ext_resource type="PackedScene" uid="uid://caf8lxd3l2kpd" path="res://Map.tscn" id="1_4wuf8"]
+[ext_resource type="PackedScene" uid="uid://cxjd14flsqajl" path="res://player.tscn" id="2_s02eq"]
+
+[node name="Map" unique_id=1872638096 instance=ExtResource("1_4wuf8")]
+y_sort_enabled = true
+
+[node name="Player" parent="." index="0" unique_id=1953206319 instance=ExtResource("2_s02eq")]
+position = Vector2(415, 289)
