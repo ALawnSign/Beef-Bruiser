@@ -164,9 +164,13 @@ func center_map():
 	map_y = (screen_size.y - map_height) / 2
 
 
-# Spawn point inside the arena (scales with the map)
+# Spawn point inside the arena, given as a grid cell (column, row)
+@export var spawn_cell: Vector2i = Vector2i(10, 27)
 func get_spawn_position() -> Vector2:
-	return Vector2(map_x + 15 * tile_scale, map_y + 39 * tile_scale)
+	return Vector2(
+		map_x + (spawn_cell.x + 0.5) * CELL_W * tile_scale,
+		map_y + (spawn_cell.y + 0.5) * CELL_H * tile_scale
+	)
 
 
 # Moves the Player to the spawn point.
@@ -191,7 +195,7 @@ func make_wall(x_offset: float, row: int):
 
 	wall.position = Vector2(
 		map_x + x_offset * tile_scale,
-		map_y + row * CELL_H * tile_scale
+		map_y + (row * CELL_H + CELL_H / 2.0) * tile_scale
 	)
 
 	wall.add_child(collision)
