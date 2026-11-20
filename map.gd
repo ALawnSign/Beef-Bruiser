@@ -4,6 +4,7 @@ extends Node2D
 # Multiplies the size of the whole map (text, walls and spawn point together).
 # Change this in the Inspector to make the map bigger/smaller.
 @export var tile_scale: float = 0.75
+@export var enemy_spawn_cell: Vector2i = Vector2i(30, 27)
 
 # Original cell size the map was built around (one text character)
 const CELL_W = 9
@@ -16,6 +17,7 @@ func _ready() -> void:
 	show_map()
 	walls()
 	spawn_player()
+	position_enemy()
 	door_timer()
 
 
@@ -294,3 +296,16 @@ func make_number(parent, col: int, row: int, number: String):
 	)
 
 	parent.add_child(label)
+
+func position_enemy() -> void:
+	var enemy := get_node_or_null("Enemy") as Node2D
+
+	if enemy == null:
+		return
+
+	var spawn_position := Vector2(
+		map_x + (enemy_spawn_cell.x + 0.5) * CELL_W * tile_scale,
+		map_y + (enemy_spawn_cell.y + 0.5) * CELL_H * tile_scale
+	)
+
+	enemy.global_position = to_global(spawn_position)
