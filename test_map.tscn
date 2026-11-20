@@ -13,3 +13,5 @@ scale = Vector2(0.3, 0.3)
 
 [node name="Player" parent="." index="1" unique_id=1953206319 instance=ExtResource("2_s02eq")]
 position = Vector2(415, 289)
+bob_speed = 10.0
+tilt_degrees = 2.0
