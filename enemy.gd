@@ -23,7 +23,7 @@ func _physics_process(_delta: float) -> void:
 
 	for body in $ContactArea.get_overlapping_bodies():
 		if body == player:
-			player.call("take_damage", contact_damage)
+			player.call("take_damage", contact_damage, global_position)
 			break
 
 func take_damage(amount: int = 1) -> void:
