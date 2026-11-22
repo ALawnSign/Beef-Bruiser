@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bbxvfy2l4j0xf" path="res://art/Beef-Hero.png" id="2_onrkg"]
 [ext_resource type="Script" uid="uid://bsdbpdupiu8wh" path="res://weapons/weapon_holder.gd" id="3_hqtel"]
 [ext_resource type="PackedScene" uid="uid://bkp7kyadt7e40" path="res://weapons/sword.tscn" id="3_i3pqv"]
+[ext_resource type="PackedScene" uid="uid://j6lkd3vauhg7" path="res://weapons/shotgun.tscn" id="5_sweqy"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ay34d"]
 radius = 7.071068
@@ -22,3 +23,5 @@ shape = SubResource("CircleShape2D_ay34d")
 script = ExtResource("3_hqtel")
 
 [node name="Sword" parent="WeaponHolder" unique_id=1484991124 instance=ExtResource("3_i3pqv")]
+
+[node name="Shotgun" parent="WeaponHolder" unique_id=232240027 instance=ExtResource("5_sweqy")]

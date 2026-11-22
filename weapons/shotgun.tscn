@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://j6lkd3vauhg7"]
+
+[ext_resource type="Script" uid="uid://dq7fxke1ocjfm" path="res://weapons/shotgun.gd" id="1_kwm0t"]
+
+[node name="Shotgun" type="Node2D" unique_id=232240027]
+script = ExtResource("1_kwm0t")
+cooldown = 0.8

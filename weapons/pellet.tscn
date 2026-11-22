@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://dvxm2254kt8jf"]
+
+[ext_resource type="Script" uid="uid://bcarxa5uoo6as" path="res://weapons/pellet.gd" id="1_jk6cq"]
+
+[node name="Pellet" type="Node2D" unique_id=1534342758]
+script = ExtResource("1_jk6cq")
+
+[node name="ShapeCast" type="ShapeCast2D" parent="." unique_id=1278173639]
