@@ -14,6 +14,7 @@ tilt_degrees = 2.0
 
 [node name="EnemySpawner" type="Node2D" parent="." index="1" unique_id=442235756]
 script = ExtResource("4_t8dge")
+spawn_interval = 2.0
 
 [node name="Spawn1" type="Marker2D" parent="EnemySpawner" index="0" unique_id=1392673766]
 position = Vector2(480, 400)

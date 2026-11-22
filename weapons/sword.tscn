@@ -4,6 +4,7 @@
 
 [node name="Sword" type="Node2D" unique_id=1484991124]
 script = ExtResource("1_74bdg")
+reach = 40.0
 weapon_name = "Sword"
 cooldown = 0.35
 
