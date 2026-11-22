@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://beulnewn156nx"]
+
+[ext_resource type="PackedScene" uid="uid://cd3hwri8ldoes" path="res://enemy.tscn" id="1_yqfcb"]
+
+[node name="mound_cow" unique_id=1362063247 instance=ExtResource("1_yqfcb")]
+modulate = Color(0.007843138, 1, 0.003921569, 1)
+hitpoints = 16

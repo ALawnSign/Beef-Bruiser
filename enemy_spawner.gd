@@ -3,7 +3,9 @@ extends Node2D
 @export var spawn_interval: float = 0.25
 @export var enemy_scale: float = 0.3
 
-const ENEMY_SCENE: PackedScene = preload("res://enemy.tscn")
+const NORMAL_COW: PackedScene = preload("res://enemy.tscn")
+const MINOTAUR: PackedScene = preload("res://minotaur.tscn")
+const MOUND_COW: PackedScene = preload("res://mound_cow.tscn")
 
 var spawn_timer: Timer
 var spawned_count: int = 0
@@ -41,8 +43,17 @@ func spawn_enemy() -> void:
 		map.map_x + (cell.x + 0.5) * map.CELL_W * map.tile_scale,
 		map.map_y + (cell.y + 0.5) * map.CELL_H * map.tile_scale
 	)
+	
+	var selected_scene: PackedScene = NORMAL_COW
+	var roll := randf()
 
-	var enemy := ENEMY_SCENE.instantiate() as CharacterBody2D
+	if roll < 0.1:	
+		selected_scene = MOUND_COW
+	elif roll < 0.3:
+		selected_scene = MINOTAUR
+
+	var enemy := selected_scene.instantiate() as CharacterBody2D
+	
 	enemy.position = spawn_position
 	enemy.scale = Vector2.ONE * enemy_scale
 	map.add_child(enemy)
