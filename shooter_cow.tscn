@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://cmcdypsny4nxa"]
+
+[ext_resource type="PackedScene" uid="uid://cd3hwri8ldoes" path="res://enemy.tscn" id="1_4supp"]
+
+[node name="shooter_cow" unique_id=1362063247 instance=ExtResource("1_4supp")]
+modulate = Color(0.015686275, 0.019607844, 1, 1)
+hitpoints = 1

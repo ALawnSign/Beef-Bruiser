@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://cflset8ojy3ik"]
+
+[ext_resource type="PackedScene" uid="uid://cd3hwri8ldoes" path="res://enemy.tscn" id="1_bbj1y"]
+
+[node name="minotaur" unique_id=1362063247 instance=ExtResource("1_bbj1y")]
+modulate = Color(0.99215686, 0.019607844, 0.011764706, 1)
+speed = 120.0
+contact_damage = 2
