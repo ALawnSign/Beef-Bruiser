@@ -1,3 +1,4 @@
+class_name Player
 extends CharacterBody2D
 
 signal health_changed(current: int, maximum: int)
@@ -40,7 +41,6 @@ var invincible_timer: float = 0.0
 var hurt_timer: float = 0.0
 var is_dead: bool = false
 
-var protection_remaining: float = 0.0
 
 func _ready() -> void:
 	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING

@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://bkp7kyadt7e40"]
+
+[ext_resource type="Script" uid="uid://dk0ors0d4gyf2" path="res://weapons/sword.gd" id="1_74bdg"]
+
+[node name="Sword" type="Node2D" unique_id=1484991124]
+script = ExtResource("1_74bdg")
+weapon_name = "Sword"
+cooldown = 0.35
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=2034901638]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=803151875]
