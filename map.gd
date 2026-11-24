@@ -29,6 +29,13 @@ var clue_number = 0
 #color for each number: 1 = red, 2 = blue, 3 = green
 var number_colors = [Color.RED, Color.BLUE, Color.GREEN]
 
+#Game over message
+var game_over =  false
+
+#Amp size of one tile
+var tile_width = CELL_W * tile_scale
+var tile_height = CELL_H * tile_scale
+
 var map_x = 400
 var map_y = 250
 
@@ -45,6 +52,7 @@ func _ready() -> void:
 	spawn_player()
 	position_enemy()
 	door_timer()
+	make_exit()
 
 
 # Builds the arena: walls around the edge, open inside, door on the right
@@ -115,7 +123,7 @@ func create_maze():
 
 	#random chests and traps
 	place_random(5, 6)
-	place_random(6, 10)
+	place_random(6, 20)
 
 
 #Turns sides of the room into open paths/open doors
@@ -195,7 +203,7 @@ func walls():
 
 
 func door_timer():
-	await get_tree().create_timer(20).timeout
+	await get_tree().create_timer(2).timeout
 
 	door_open = true
 
@@ -262,9 +270,6 @@ func show_map():
 
 
 func make_number(parent, col: int, row: int, number: String):
-	
-	
-	
 	var label = Label.new()
 
 	label.text = number
@@ -304,7 +309,78 @@ func place_random(value, amount):
 		var col = 1 + room_col * 27 + randi() % 26
 		var row = 1 + room_row * 9 + randi() % 8
 		maze[row][col] = value
-		
+
+
+#Shows big text in the middle of the screen and freezes the game
+func show_message(text):
+	#keeps the text on the screen
+	var layer = CanvasLayer.new()
+	add_child(layer)
+
+	#the text
+	var label = Label.new()
+	label.text = text
+	label.add_theme_font_size_override("font_size", 64)
+
+	#stretch the label across the screen and center the text in it
+	var screen_size = get_viewport_rect().size
+	label.position = Vector2(0, screen_size.y / 2 - 40)
+	label.size.x = screen_size.x
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	layer.add_child(label)
+
+	#freeze the game
+	get_tree().paused = true
+
+
+func real_exit(body):
+	if body.name == "Player" and game_over == false:
+		game_over = true
+		show_message("Congratulations You Have Survived")
+
+
+func fake_exit(body):
+	if body.name == "Player" and game_over == false:
+		game_over = true
+		show_message("You have been Cowed!!")
+
+
+func trap_hit(body):
+	if body.name =="Player" and game_over == false:
+		game_over = true
+		show_message("You have stepped in cow min")
+
+func make_exit(): 
+	for row in range(maze_rows):
+		for col in range(maze_cols):
+			
+			if maze[row][col] == 3 or maze[row][col] == 4 or maze[row][col] == 6:
+				
+				var plate = Area2D.new()
+				var shape = CollisionShape2D.new()
+				var box = RectangleShape2D.new()
+				
+				box.size = Vector2(tile_width, tile_height)
+				shape.shape = box
+				plate.add_child(shape)
+				
+				var x = map_x + (arena_cols + col) * tile_width
+				
+				var y = map_y + row * tile_height
+				
+				x = x + tile_width / 2
+				y = y + tile_height / 2 
+				
+				plate.position = Vector2(x, y)
+				
+				if maze[row][col] == 3: 
+					plate.body_entered.connect(real_exit)
+				if maze[row][col] == 4:
+					plate.body_entered.connect(fake_exit)
+				if maze[row][col] == 6:
+					plate.body_entered.connect(trap_hit)
+				
+				add_child(plate)
 
 
 # ============================================================
