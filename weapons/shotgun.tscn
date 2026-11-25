@@ -1,7 +1,12 @@
 [gd_scene format=3 uid="uid://j6lkd3vauhg7"]
 
 [ext_resource type="Script" uid="uid://dq7fxke1ocjfm" path="res://weapons/shotgun.gd" id="1_kwm0t"]
+[ext_resource type="Script" uid="uid://dqbx0qpku54f8" path="res://weapons/ammo.gd" id="2_64lnt"]
 
 [node name="Shotgun" type="Node2D" unique_id=232240027]
 script = ExtResource("1_kwm0t")
 cooldown = 0.8
+
+[node name="Ammo" type="Node" parent="." unique_id=212824630]
+script = ExtResource("2_64lnt")
+metadata/_custom_type_script = "uid://dqbx0qpku54f8"

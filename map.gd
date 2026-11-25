@@ -101,12 +101,12 @@ func create_maze():
 		[113, 54, 15, 1]
 	]
 	#pick one exit to be the real one
-	var real_exit = randi() % exits.size()
+	var real_exit_idx = randi() % exits.size()
 
 	#mark each exit, 3 = real, 4 = fake
 	for i in range(exits.size()):
 		var value = 4
-		if i == real_exit:
+		if i == real_exit_idx:
 			value = 3
 
 		var e = exits[i]
@@ -117,7 +117,7 @@ func create_maze():
 	#mix up 1, 2, 3 so each exit gets a random number
 	exit_numbers.shuffle()
 	#save the real exit's number for the door
-	clue_number = exit_numbers[real_exit]
+	clue_number = exit_numbers[real_exit_idx]
 	#save the exits so show_map can draw them
 	exit_list = exits
 
@@ -203,7 +203,7 @@ func walls():
 
 
 func door_timer():
-	await get_tree().create_timer(2).timeout
+	await get_tree().create_timer(20).timeout
 
 	door_open = true
 
