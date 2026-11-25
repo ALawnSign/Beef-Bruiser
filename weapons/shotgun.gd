@@ -13,12 +13,8 @@ const PELLET_SCENE: PackedScene = preload("res://weapons/pellet.tscn")
 
 @export var muzzle_offset: Vector2 = Vector2(0, -26)
 
-@onready var ammo: Ammo = $Ammo
-
 
 func attack(aim: Vector2) -> void:
-	if not ammo.use():
-		return
 	var start := get_muzzle_position()
 	var half_spread := deg_to_rad(spread_degrees) / 2.0
 	var jitter := deg_to_rad(spread_jitter_degrees)

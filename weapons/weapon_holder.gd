@@ -17,6 +17,7 @@ func _ready() -> void:
 		if child is Weapon:
 			child.player = player
 			child.hide()
+			child.killed.connect(_on_weapon_killed.bind(child))
 			weapons.append(child)
 	switch_by(1)
 
@@ -32,6 +33,9 @@ func _physics_process(_delta: float) -> void:
 	for i in mini(weapons.size(), 4):
 		if Input.is_action_just_pressed("weapon_%d" % (i + 1)):
 			equip(i)
+
+	if current and Input.is_action_just_pressed("reload"):
+		current.reload()
 
 	if current and Input.is_action_pressed("attack") \
 			and player.hurt_timer == 0.0 and not player.is_dashing:
@@ -78,3 +82,9 @@ func unlock_weapon(weapon_name: String, equip_now: bool = true) -> void:
 			if equip_now or current == null:
 				equip(i)
 			return
+
+
+func _on_weapon_killed(_target: Node, killer: Weapon) -> void:
+	for weapon in weapons:
+		if weapon != killer and weapon.ammo:
+			weapon.ammo.on_kill()

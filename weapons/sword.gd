@@ -37,7 +37,7 @@ func _weapon_physics(delta: float) -> void:
 		# Only hit things inside the arc (we're rotated, so "forward" is angle 0)
 		if absf(to_local(body.global_position).angle()) <= half_arc:
 			already_hit.append(body)
-			body.take_damage(damage)
+			deal_damage(body, damage)
 
 	queue_redraw()
 

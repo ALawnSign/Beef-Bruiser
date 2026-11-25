@@ -185,5 +185,5 @@ func _unhandled_input(event: InputEvent) -> void:
 			take_damage(1, global_position + Vector2(40, 0))  # pretend hit from the right
 		elif event.keycode == KEY_H:
 			heal(1)
-		elif event.keycode == KEY_R:
+		elif event.keycode == KEY_F2:
 			get_tree().reload_current_scene()
