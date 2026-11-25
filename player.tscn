@@ -9,6 +9,10 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_ay34d"]
 radius = 7.071068
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ay34d"]
+radius = 8.0
+height = 44.0
+
 [node name="Player" type="CharacterBody2D" unique_id=1953206319 groups=["player"]]
 script = ExtResource("1_onrkg")
 
@@ -25,3 +29,11 @@ script = ExtResource("3_hqtel")
 [node name="Sword" parent="WeaponHolder" unique_id=1484991124 instance=ExtResource("3_i3pqv")]
 
 [node name="Shotgun" parent="WeaponHolder" unique_id=232240027 instance=ExtResource("5_sweqy")]
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=660216219 groups=["player_hurtbox"]]
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1680303412]
+position = Vector2(-1, -24)
+shape = SubResource("CapsuleShape2D_ay34d")

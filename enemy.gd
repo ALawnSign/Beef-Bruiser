@@ -21,8 +21,8 @@ func _physics_process(_delta: float) -> void:
 	velocity = direction * speed
 	move_and_slide()
 
-	for body in $ContactArea.get_overlapping_bodies():
-		if body == player:
+	for area in $ContactArea.get_overlapping_areas():
+		if area.is_in_group("player_hurtbox"):
 			player.call("take_damage", contact_damage, global_position)
 			break
 
