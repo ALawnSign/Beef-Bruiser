@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://chyew4wk6rcre"]
+
+[ext_resource type="Script" uid="uid://buls56rsubwvw" path="res://weapons/flail.gd" id="1_qohya"]
+
+[node name="Flail" type="Node2D" unique_id=1887973674]
+script = ExtResource("1_qohya")
+weapon_name = "Flail"
+damage = 3
+cooldown = 15.0
+passive = true
