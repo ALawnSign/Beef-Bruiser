@@ -35,6 +35,7 @@ func spawn_pellet(start: Vector2, dir: Vector2) -> void:
 	pellet.max_range = pellet_range
 	pellet.damage = damage
 	pellet.shooter = player
+	pellet.weapon = self
 	get_tree().current_scene.add_child(pellet)
 	pellet.global_position = start
 

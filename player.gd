@@ -74,7 +74,7 @@ func _physics_process(delta: float) -> void:
 		dash_timer -= delta
 		velocity = dash_direction * dash_speed
 		if dash_timer <= 0.0:
-			is_dashing = false
+			end_dash()
 			velocity = dash_direction * speed
 	elif hurt_timer > 0.0 or push_timer > 0.0:
 		velocity = velocity.move_toward(Vector2.ZERO, friction * delta)

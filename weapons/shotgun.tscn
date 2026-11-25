@@ -5,6 +5,7 @@
 
 [node name="Shotgun" type="Node2D" unique_id=232240027]
 script = ExtResource("1_kwm0t")
+weapon_name = "Shotgun"
 cooldown = 0.8
 
 [node name="Ammo" type="Node" parent="." unique_id=212824630]

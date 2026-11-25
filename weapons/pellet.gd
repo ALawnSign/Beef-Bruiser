@@ -6,6 +6,7 @@ var speed: float = 650.0
 var max_range: float = 220.0
 var damage: int = 1
 var shooter: Node = null
+var weapon: Weapon = null
 
 const RADIUS: float = 3.0
 
@@ -46,7 +47,10 @@ func hit() -> void:
 	for i in shape_cast.get_collision_count():
 		var body := shape_cast.get_collider(i)
 		if body and body != shooter and body.has_method("take_damage"):
-			body.take_damage(damage)
+			if is_instance_valid(weapon):
+				weapon.deal_damage(body, damage)
+			else:
+				body.take_damage(damage)
 			break
 	queue_free()
 

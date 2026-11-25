@@ -9,6 +9,7 @@ enum AimMode { MOUSE, FACING }
 @onready var player: Player = get_parent() as Player
 
 var weapons: Array[Weapon] = []
+var passives: Array[Weapon] = []
 var current: Weapon = null
 
 
@@ -16,9 +17,13 @@ func _ready() -> void:
 	for child in get_children():
 		if child is Weapon:
 			child.player = player
-			child.hide()
 			child.killed.connect(_on_weapon_killed.bind(child))
-			weapons.append(child)
+			if child.passive:
+				child.visible = child.unlocked
+				passives.append(child)
+			else:
+				child.hide()
+				weapons.append(child)
 	switch_by(1)
 
 
@@ -76,6 +81,11 @@ func switch_by(step: int) -> void:
 
 
 func unlock_weapon(weapon_name: String, equip_now: bool = true) -> void:
+	for weapon in passives:
+		if weapon.weapon_name == weapon_name:
+			weapon.unlocked = true
+			weapon.show()
+			return
 	for i in weapons.size():
 		if weapons[i].weapon_name == weapon_name:
 			weapons[i].unlocked = true
@@ -84,7 +94,8 @@ func unlock_weapon(weapon_name: String, equip_now: bool = true) -> void:
 			return
 
 
-func _on_weapon_killed(_target: Node, killer: Weapon) -> void:
-	for weapon in weapons:
+func _on_weapon_killed(target: Node, killer: Weapon) -> void:
+	print(killer.weapon_name, " killed ", target.name)
+	for weapon in weapons + passives:
 		if weapon != killer and weapon.ammo:
 			weapon.ammo.on_kill()
