@@ -39,6 +39,16 @@ var tile_height = CELL_H * tile_scale
 var map_x = 400
 var map_y = 250
 
+#map pictures
+var wall_image = preload("res://art/Map/wall.png")
+var floor_image = preload("res://art/Map/floor.png")
+var trap_image = preload("res://art/Map/trap.png")
+var chest_image = preload("res://art/Map/chest.png")
+var banner_images = [preload("res://art/Map/banner_red.png"), preload("res://art/Map/banner_blue.png"), preload("res://art/Map/banner_green.png")]
+
+#draw each chest and trap
+var chest_spots = []
+var trap_spots = []
 
 # ============================================================
 # MAP 
@@ -225,90 +235,112 @@ func show_map():
 	map_label.name = "MapLabel"
 	add_child(map_label)
 
+	#Draw the arena
 	for row in range(arena_rows):
 		for col in range(arena_cols):
-
+			
+			#Walls
 			if arena[row][col] == 1:
-				make_number(
-					map_label,
-					col,
-					row,
-					"1"
-				)
-
+				make_image(map_label, col, row, wall_image)
+			
+			#door while it's closed 
 			elif arena[row][col] == 2 and not door_open:
-				make_number(
-					map_label,
-					col,
-					row,
-					"2"
-				)
+				make_image(map_label, col, row, wall_image)
+			
+			#Floor
+			else:
+				make_image(map_label, col, row, floor_image)
 
 	#when the door opens, put a small clue color next to the door
 	if door_open:
-		make_color_tile(map_label, arena_cols - 2, 24, number_colors[clue_number - 1])
+		make_image(map_label, arena_cols - 1, 24, banner_images[clue_number - 1])
 
+	#Draw the maze 
 	for row in range(maze_rows):
 		for col in range(maze_cols):
-
+			
+			#Walls 
 			if maze[row][col] == 1:
-				make_number(
-					map_label,
-					arena_cols + col,
-					row,
-					"1"
-				)
-			elif maze[row][col] == 5:
-				make_color_tile(map_label, arena_cols + col, row, Color.GOLD)
-			elif maze[row][col] == 6:
-				make_color_tile(map_label, arena_cols + col, row, Color.PURPLE)
+				make_image(map_label, arena_cols + col, row, wall_image)
+				
+			#Floor
+			else:
+				make_image(map_label, arena_cols + col, row, floor_image)
+			
+			
+	for spot in chest_spots:
+		make_big_image(map_label, arena_cols + spot[0], spot[1], chest_image, 6, 2)
+		
+		
+	for spot in trap_spots:
+		make_big_image(map_label, arena_cols + spot[0], spot[1], trap_image, 6, 2)
 
 	#put a small color next to each exit
 	for i in range(exit_list.size()):
 		var e = exit_list[i]
-		make_color_tile(map_label, arena_cols + e[0] - 1, e[1] - 1, number_colors[exit_numbers[i] - 1])
+		var banner = banner_images[exit_numbers[i] - 1]
+
+		#tall exit (on the right wall): banner on the wall above it
+		if e[2] == 1:
+			make_image(map_label, arena_cols + e[0], e[1] - 1, banner)
+
+		#wide exit (on the bottom wall): banner on the wall to its left
+		else:
+			make_image(map_label, arena_cols + e[0] - 1, e[1], banner)
 
 
-func make_number(parent, col: int, row: int, number: String):
-	var label = Label.new()
+func make_image(holder, col, row, image):
+	var sprite = Sprite2D.new()
+	sprite.texture = image
+	
+	#keep the pixel art sharp (not blurry)
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 
-	label.text = number
+	#place it from its top-left corner, same as the other tiles
+	sprite.centered = false
 
-	label.position = Vector2(
-		map_x + col * CELL_W * tile_scale,
-		map_y + row * CELL_H * tile_scale
-	)
+	#stretch the 16x16 picture to fit one tile
+	sprite.scale = Vector2(tile_width / 16, tile_height / 16)
 
-	label.scale = Vector2(
-		tile_scale,
-		tile_scale
-	)
+	#put it on the right tile
+	sprite.position = Vector2(map_x + col * tile_width, map_y + row * tile_height)
 
-	label.add_theme_font_size_override(
-		"font_size",
-		12
-	)
+	#put it in the box with the rest of the map pictures
+	holder.add_child(sprite)
 
-	parent.add_child(label)
 
-#Colors one tile on the map
-func make_color_tile(parent, col, row, color):
-	var tile = ColorRect.new()
-	tile.color = color
-	tile.size = Vector2(CELL_W, CELL_H) * tile_scale
-	tile.position = Vector2(map_x + col * CELL_W * tile_scale, map_y + row * CELL_H * tile_scale)
-	parent.add_child(tile)
-
+#Draws one picture stretched over a block of tiles
+func make_big_image(holder, col, row, image, tiles_wide, tiles_tall):
+	var sprite = Sprite2D.new()
+	sprite.texture = image
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	sprite.centered = false
+	sprite.scale = Vector2(tile_width * tiles_wide / 16, tile_height * tiles_tall / 16)
+	sprite.position = Vector2(map_x + col * tile_width, map_y + row * tile_height)
+	holder.add_child(sprite)
+	
+	
 #Puts chests or traps in random spots inside the rooms
 func place_random(value, amount):
 	for i in range(amount):
 		#pick a random room
 		var room_col = randi() % 8
 		var room_row = randi() % 6
-		#pick a random spot inside that room
-		var col = 1 + room_col * 27 + randi() % 26
-		var row = 1 + room_row * 9 + randi() % 8
-		maze[row][col] = value
+
+		#pick a random spot inside that room (leave room for 6 x 2)
+		var col = 1 + room_col * 27 + randi() % 21
+		var row = 1 + room_row * 9 + randi() % 7
+
+		#mark all the tiles so the plates cover the whole thing
+		for r in range(row, row + 2):
+			for c in range(col, col + 6):
+				maze[r][c] = value
+
+		#remember where to draw the picture
+		if value == 5:
+			chest_spots.append([col, row])
+		if value == 6:
+			trap_spots.append([col, row])
 
 
 #Shows big text in the middle of the screen and freezes the game
@@ -349,6 +381,7 @@ func trap_hit(body):
 	if body.name =="Player" and game_over == false:
 		game_over = true
 		show_message("You have stepped in cow min")
+
 
 func make_exit(): 
 	for row in range(maze_rows):
