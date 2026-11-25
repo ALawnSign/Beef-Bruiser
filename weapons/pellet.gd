@@ -20,7 +20,7 @@ func _ready() -> void:
 	circle.radius = RADIUS
 	shape_cast.shape = circle
 	shape_cast.enabled = false
-	shape_cast.collision_mask = 1
+	shape_cast.collision_mask = 3
 	if shooter is CollisionObject2D:
 		shape_cast.add_exception(shooter)
 

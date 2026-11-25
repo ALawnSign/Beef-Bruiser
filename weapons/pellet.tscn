@@ -6,3 +6,4 @@
 script = ExtResource("1_jk6cq")
 
 [node name="ShapeCast" type="ShapeCast2D" parent="." unique_id=1278173639]
+collision_mask = 3

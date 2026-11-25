@@ -4,6 +4,8 @@ extends CharacterBody2D
 signal health_changed(current: int, maximum: int)
 signal died
 
+const ENEMY_LAYER := 2
+
 @export var speed: float = 200.0
 @export var acceleration: float = 1500.0
 @export var friction: float = 1800.0
@@ -18,6 +20,8 @@ signal died
 @export var dash_speed: float = 650.0
 @export var dash_time: float = 0.15
 @export var dash_cooldown: float = 0.6
+@export var dash_through_enemies: bool = true
+@export var dash_invincible: bool = true
 
 @export_group("Health")
 @export var max_health: int = 5
@@ -94,6 +98,13 @@ func start_dash() -> void:
 	dash_timer = dash_time
 	dash_cooldown_timer = dash_cooldown
 	dash_direction = facing
+	if dash_through_enemies:
+		set_collision_mask_value(ENEMY_LAYER, false)
+
+
+func end_dash() -> void:
+	is_dashing = false
+	set_collision_mask_value(ENEMY_LAYER, true)
 
 
 func unlock_dash() -> void:
@@ -112,6 +123,8 @@ func push(force: Vector2, lock_time: float = 0.0) -> void:
 func take_damage(amount: int, source_position: Vector2 = Vector2.INF) -> void:
 	if is_dead or invincible_timer > 0.0:
 		return
+	if is_dashing and dash_invincible:
+		return
 
 	health = maxi(health - amount, 0)
 	health_changed.emit(health, max_health)
@@ -124,7 +137,7 @@ func take_damage(amount: int, source_position: Vector2 = Vector2.INF) -> void:
 	invincible_timer = invincible_time
 
 	if source_position != Vector2.INF:
-		is_dashing = false
+		end_dash()
 		hurt_timer = hurt_stun_time
 		velocity = source_position.direction_to(global_position) * knockback_strength
 
@@ -139,7 +152,7 @@ func heal(amount: int) -> void:
 
 func die() -> void:
 	is_dead = true
-	is_dashing = false
+	end_dash()
 	velocity = Vector2.ZERO
 
 	# Fall over and go grey
