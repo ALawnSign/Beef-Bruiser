@@ -12,6 +12,8 @@ const PELLET_SCENE: PackedScene = preload("res://weapons/pellet.tscn")
 @export var pellet_range: float = 220.0
 
 @export var muzzle_offset: Vector2 = Vector2(0, -26)
+@export var recoil_strength: float = 250.0
+@export var recoil_lock_time: float = 0.08
 
 
 func attack(aim: Vector2) -> void:
@@ -23,6 +25,7 @@ func attack(aim: Vector2) -> void:
 		var t := 0.5 if pellet_count == 1 else float(i) / (pellet_count - 1)
 		var angle := aim.angle() + lerpf(-half_spread, half_spread, t) + randf_range(-jitter, jitter)
 		spawn_pellet(start, Vector2.from_angle(angle))
+	player.push(-aim * recoil_strength, recoil_lock_time)
 
 
 func spawn_pellet(start: Vector2, dir: Vector2) -> void:
