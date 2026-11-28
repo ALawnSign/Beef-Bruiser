@@ -2,6 +2,9 @@
 
 [ext_resource type="PackedScene" uid="uid://cd3hwri8ldoes" path="res://enemy.tscn" id="1_4supp"]
 
+[ext_resource type="Script" path="res://shooter_cow.gd" id="2_shooter"]
+
 [node name="shooter_cow" unique_id=1362063247 instance=ExtResource("1_4supp")]
 modulate = Color(0.015686275, 0.019607844, 1, 1)
+script = ExtResource("2_shooter")
 hitpoints = 1

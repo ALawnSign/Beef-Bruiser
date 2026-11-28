@@ -7,6 +7,8 @@ const NORMAL_COW: PackedScene = preload("res://enemy.tscn")
 const MINOTAUR: PackedScene = preload("res://minotaur.tscn")
 const MOUND_COW: PackedScene = preload("res://mound_cow.tscn")
 
+const SHOOTER_COW: PackedScene = preload("res://shooter_cow.tscn")
+
 var spawn_timer: Timer
 var spawned_count: int = 0
 
@@ -51,6 +53,8 @@ func spawn_enemy() -> void:
 		selected_scene = MOUND_COW
 	elif roll < 0.3:
 		selected_scene = MINOTAUR
+	elif roll < 0.5:
+		selected_scene = SHOOTER_COW
 
 	var enemy := selected_scene.instantiate() as CharacterBody2D
 	

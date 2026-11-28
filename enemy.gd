@@ -13,11 +13,11 @@ func _ready() -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	if not is_instance_valid(player):
+	if not is_instance_valid(player) or (player is Player and player.is_dead):
 		velocity = Vector2.ZERO
 		return
 
-	var direction := global_position.direction_to(player.global_position)
+	var direction := get_movement_direction()
 	velocity = direction * speed
 	move_and_slide()
 
@@ -25,6 +25,10 @@ func _physics_process(_delta: float) -> void:
 		if area.is_in_group("player_hurtbox"):
 			player.call("take_damage", contact_damage, global_position)
 			break
+
+func get_movement_direction() -> Vector2:
+	return global_position.direction_to(player.global_position)
+
 
 func take_damage(amount: int = 1) -> void:
 	if hitpoints <= 0:
