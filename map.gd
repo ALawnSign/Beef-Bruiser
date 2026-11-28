@@ -49,6 +49,7 @@ var banner_images = [preload("res://art/Map/banner_red.png"), preload("res://art
 #draw each chest and trap
 var chest_spots = []
 var trap_spots = []
+var trap_plates = []
 
 # ============================================================
 # MAP 
@@ -366,21 +367,32 @@ func show_message(text):
 
 
 func real_exit(body):
-	if body.name == "Player" and game_over == false:
+	if body.is_in_group("player") and game_over == false:
 		game_over = true
 		show_message("Congratulations You Have Survived")
 
 
 func fake_exit(body):
-	if body.name == "Player" and game_over == false:
+	if body.is_in_group("player") and game_over == false:
 		game_over = true
 		show_message("You have been Cowed!!")
 
 
+func _physics_process(_delta: float) -> void:
+	if game_over:
+		return
+	for plate in trap_plates:
+		for body in plate.get_overlapping_bodies():
+			trap_hit(body)
+
+
 func trap_hit(body):
-	if body.name =="Player" and game_over == false:
-		game_over = true
-		show_message("You have stepped in cow min")
+	if not body.is_in_group("player") or game_over == true:
+		return
+	if body.get("is_dashing") == true:
+		return
+	game_over = true
+	show_message("You have stepped in cow min")
 
 
 func make_exit(): 
@@ -411,7 +423,7 @@ func make_exit():
 				if maze[row][col] == 4:
 					plate.body_entered.connect(fake_exit)
 				if maze[row][col] == 6:
-					plate.body_entered.connect(trap_hit)
+					trap_plates.append(plate)
 				
 				add_child(plate)
 
