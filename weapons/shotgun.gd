@@ -15,6 +15,22 @@ const PELLET_SCENE: PackedScene = preload("res://weapons/pellet.tscn")
 @export var recoil_strength: float = 250.0
 @export var recoil_lock_time: float = 0.08
 
+@export_group("Visual")
+@export var hold_offset: Vector2 = Vector2(0, -24)
+@export var hold_distance: float = 6.0
+@onready var gun_pivot: Node2D = $GunPivot
+
+
+func _process(_delta: float) -> void:
+	if player == null or not visible:
+		return
+	var holder = get_parent()
+	var aim: Vector2 = holder.get_aim_direction()
+	var bob := player.sprite.position - player.sprite_base_position
+	gun_pivot.position = hold_offset + bob + aim * hold_distance
+	gun_pivot.rotation = aim.angle()
+	gun_pivot.scale = Vector2(1, -1 if aim.x < 0.0 else 1)
+
 
 func attack(aim: Vector2) -> void:
 	var start := get_muzzle_position()

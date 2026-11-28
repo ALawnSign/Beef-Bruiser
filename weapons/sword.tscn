@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bkp7kyadt7e40"]
 
 [ext_resource type="Script" uid="uid://dk0ors0d4gyf2" path="res://weapons/sword.gd" id="1_74bdg"]
+[ext_resource type="Texture2D" uid="uid://htc6wq5jkmhq" path="res://art/Weapons/beef-sword.png" id="2_oivwf"]
 
 [node name="Sword" type="Node2D" unique_id=1484991124]
 script = ExtResource("1_74bdg")
@@ -13,3 +14,11 @@ collision_layer = 0
 collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=803151875]
+
+[node name="SwordPivot" type="Node2D" parent="." unique_id=315651472]
+
+[node name="SwordSprite" type="Sprite2D" parent="SwordPivot" unique_id=1295640333]
+rotation = 0.7853982
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("2_oivwf")
+offset = Vector2(10, -10)

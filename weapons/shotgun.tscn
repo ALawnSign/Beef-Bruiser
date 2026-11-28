@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dq7fxke1ocjfm" path="res://weapons/shotgun.gd" id="1_kwm0t"]
 [ext_resource type="Script" uid="uid://dqbx0qpku54f8" path="res://weapons/ammo.gd" id="2_64lnt"]
+[ext_resource type="Texture2D" uid="uid://82oocdnge1jb" path="res://art/Weapons/beef-shotgun.png" id="3_byptj"]
 
 [node name="Shotgun" type="Node2D" unique_id=232240027]
 script = ExtResource("1_kwm0t")
@@ -11,3 +12,11 @@ cooldown = 0.8
 [node name="Ammo" type="Node" parent="." unique_id=212824630]
 script = ExtResource("2_64lnt")
 metadata/_custom_type_script = "uid://dqbx0qpku54f8"
+
+[node name="GunPivot" type="Node2D" parent="." unique_id=1290699231]
+
+[node name="GunSprite" type="Sprite2D" parent="GunPivot" unique_id=1829298405]
+rotation = 0.7853982
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("3_byptj")
+offset = Vector2(4, -8)
